@@ -1,0 +1,8 @@
+package: github.com/vishen/go-gameoflife
+import:
+- package: github.com/go-gl/gl
+  subpackages:
+  - v4.1-core/gl
+- package: github.com/go-gl/glfw
+  subpackages:
+  - v3.2/glfw
