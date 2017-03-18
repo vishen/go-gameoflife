@@ -20,10 +20,29 @@ var (
 	program uint32
 
 	// Co-ordinates relative to the center of the window, which is 0,0
-	triangle = []float32{
+	// Normal triangle
+	/*triangle = []float32{
 		0, 0.5, 0, // top
 		-0.5, -0.5, 0, // left
 		0.5, -0.5, 0, // right
+	}*/
+
+	// Right angled triangle
+	/*triangle = []float32{
+		-0.5, 0.5, 0,
+		-0.5, -0.5, 0,
+		0.5, -0.5, 0,
+	}*/
+
+	// Square from two right angled triangles
+	square = []float32{
+		-0.5, 0.5, 0,
+		-0.5, -0.5, 0,
+		0.5, -0.5, 0,
+
+		-0.5, 0.5, 0,
+		0.5, 0.5, 0,
+		0.5, -0.5, 0,
 	}
 
 	vertexShaderSource = `
@@ -122,9 +141,9 @@ func draw() {
 	var vbo uint32
 	gl.GenBuffers(1, &vbo)
 	gl.BindBuffer(gl.ARRAY_BUFFER, vbo)
-	// 4 * len(triangle) -> We are using slice float32 and a 32-bit float has 4 bytes
-	number_bytes := 4 * len(triangle)
-	gl.BufferData(gl.ARRAY_BUFFER, number_bytes, gl.Ptr(triangle), gl.STATIC_DRAW)
+	// 4 * len(square) -> We are using slice float32 and a 32-bit float has 4 bytes
+	number_bytes := 4 * len(square)
+	gl.BufferData(gl.ARRAY_BUFFER, number_bytes, gl.Ptr(square), gl.STATIC_DRAW)
 
 	// Vertex Array Object
 	var vao uint32
@@ -134,7 +153,7 @@ func draw() {
 	gl.BindBuffer(gl.ARRAY_BUFFER, vbo)
 	gl.VertexAttribPointer(0, 3, gl.FLOAT, false, 0, nil)
 
-	gl.DrawArrays(gl.TRIANGLES, 0, int32(len(triangle)/3))
+	gl.DrawArrays(gl.TRIANGLES, 0, int32(len(square)/3))
 
 	glfw.PollEvents()
 	window.SwapBuffers()
